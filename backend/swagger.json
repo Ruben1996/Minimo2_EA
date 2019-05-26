@@ -1,0 +1,355 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "CRUD Minimo1",
+    "description": "CRUD Stations",
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    }
+  },
+  "host": "localhost:3001",
+  "basePath": "/",
+  "tags": [
+    {
+      "name": "Bikes"
+    },
+    {
+      "name": "Stations"
+    }
+  ],
+  "schemes": [
+    "http"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/bikes": {
+      "post": {
+        "tags": [
+          "Bikes"
+        ],
+        "description": "Add new Bike",
+        "parameters": [
+          {
+            "name": "Bike",
+            "in": "body",
+            "description": "Bike that you want to add",
+            "schema": {
+              "$ref": "#/definitions/Bike"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Bike created successfully"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Bikes"
+        ],
+        "summary": "Get all bikes",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Bikes"
+            }
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/bikes/{bikeId}": {
+      "parameters": [
+        {
+          "name": "bikeId",
+          "in": "path",
+          "required": true,
+          "description": "ID of the bike",
+          "type": "string"
+        }
+      ],
+      "delete": {
+        "tags": [
+          "Bikes"
+        ],
+        "summary": "Delete Bike",
+        "responses": {
+          "200": {
+            "description": "Bike is deleted"
+          },
+          "404": {
+            "description": "Bike not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/stations": {
+      "post": {
+        "tags": [
+          "Stations"
+        ],
+        "description": "Add new Station",
+        "parameters": [
+          {
+            "name": "Station",
+            "in": "body",
+            "description": "Station that you want to add",
+            "schema": {
+              "$ref": "#/definitions/Station"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Station created successfully"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Stations"
+        ],
+        "summary": "Get all stations",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Stations"
+            }
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/stations/addbike": {
+      "post": {
+        "tags": [
+          "Stations"
+        ],
+        "description": "Add bike into a station",
+        "parameters": [
+          {
+            "name": "identifiers",
+            "in": "body",
+            "description": "Id of the Bike and the Station",
+            "schema": {
+              "$ref": "#/definitions/AddBikeIntoStation"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Added successfully"
+          },
+          "404": {
+            "description": "Bike or Station not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/stations/{stationId}": {
+      "parameters": [
+        {
+          "name": "stationId",
+          "in": "path",
+          "required": true,
+          "description": "ID of the stations",
+          "type": "string"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Stations"
+        ],
+        "summary": "See the station detail",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/StationDetail"
+            }
+          },
+          "404": {
+            "description": "Station not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Stations"
+        ],
+        "summary": "Delete Station",
+        "responses": {
+          "200": {
+            "description": "Station is deleted"
+          },
+          "404": {
+            "description": "Station not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/stations/{stationId}/bikedetail": {
+      "parameters": [
+        {
+          "name": "stationId",
+          "in": "path",
+          "required": true,
+          "description": "ID of the station",
+          "type": "string"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Stations"
+        ],
+        "summary": "See the bikes detail of a station",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/BikeStationDetail"
+            }
+          },
+          "404": {
+            "description": "Station not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Bike": {
+      "required": [
+        "name",
+        "kms",
+        "description",
+        "available"
+      ],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "kms": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "available": {
+          "type": "boolean"
+        }
+      }
+    },
+    "Bikes": {
+      "type": "array",
+      "$ref": "#/definitions/Bike"
+    },
+    "Station": {
+      "required": [
+        "name",
+        "state",
+        "description"
+      ],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "state": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        }
+      }
+    },
+    "Stations": {
+      "type": "array",
+      "$ref": "#/definitions/Station"
+    },
+    "AddBikeIntoStation": {
+      "required": [
+        "bikeId",
+        "stationId"
+      ],
+      "properties": {
+        "bikeId": {
+          "type": "string"
+        },
+        "stationId": {
+          "type": "string"
+        }
+      }
+    },
+    "StationDetail": {
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "bikes": {
+          "type": "array",
+          "items": {
+            "properties": {
+              "name": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "BikeStationDetail": {
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "students": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Bike"
+          }
+        }
+      }
+    }
+  }
+}
