@@ -1,0 +1,28 @@
+<<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title *ngIf="!isSearchBarOpened">
+      Stations
+    </ion-title>
+    <ion-searchbar animated placeholder="Search Stations" (input)="searchStations($event)" *ngIf="isSearchBarOpened"></ion-searchbar>
+    <ion-button *ngIf="!isSearchBarOpened" (click)="isSearchBarOpened=true">
+      <ion-icon name="search"></ion-icon>
+    </ion-button>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content>
+    <ion-list lines="none">
+      <ion-list-header>
+        <ion-label>List of Stations</ion-label>
+      </ion-list-header>
+      <ion-item (click)="bikeStationDetail(station._id)" *ngFor="let station of stations | filter:searchText" >
+        <ion-label>{{station.name}}</ion-label>
+        <ion-label>{{station.state}}</ion-label>
+        <ion-label>{{station.description}}</ion-label>
+      </ion-item>
+     </ion-list>
+</ion-content>
