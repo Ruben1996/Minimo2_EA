@@ -1,4 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import {Station} from "../../models/station";
+import {Bike} from "../../models/bike";
+import {ActivatedRoute} from "@angular/router";
+import {StationService} from "../../services/station.service";
+import {BikeService} from "../../services/bike.service";
 
 @Component({
   selector: 'app-list',
@@ -6,34 +11,71 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['list.page.scss']
 })
 export class ListPage implements OnInit {
-  private selectedItem: any;
-  private icons = [
-    'flask',
-    'wifi',
-    'beer',
-    'football',
-    'basketball',
-    'paper-plane',
-    'american-football',
-    'boat',
-    'bluetooth',
-    'build'
-  ];
-  public items: Array<{ title: string; note: string; icon: string }> = [];
-  constructor() {
-    for (let i = 1; i < 11; i++) {
-      this.items.push({
-        title: 'Item ' + i,
-        note: 'This is item #' + i,
-        icon: this.icons[Math.floor(Math.random() * this.icons.length)]
-      });
-    }
+  stationBikeDetail: Station;
+  unassignedBikes: Bike[];
+  body: object;
+
+  constructor(private activatedRouter: ActivatedRoute, private stationService: StationService, private bikeService: BikeService) {
+    this.stationBikeDetail = new Station();
+    this.unassignedBikes = [];
   }
 
   ngOnInit() {
+    this.activatedRouter.params.subscribe(params => {
+      if (typeof params.id !== 'undefined') {
+        this.stationBikeDetail._id = params.id;
+      } else {
+        this.stationBikeDetail._id = '';
+      }
+    });
+    this.getBikeDetail(this.stationBikeDetail._id);
+    this.getUnassignedBikes();
   }
-  // add back when alpha.4 is out
-  // navigate(item) {
-  //   this.router.navigate(['/list', JSON.stringify(item)]);
-  // }
+
+  async getUnassignedBikes() {
+    await this.bikeService.getavailableBikes()
+        .subscribe(res => {
+          console.log(res);
+          this.unassignedBikes = res as Bike[];
+        });
+    console.log(this.unassignedBikes);
+  }
+
+  async getBikeDetail(id: string) {
+    await this.stationService.getBikeStationDetail(id)
+        .subscribe(res => {
+          console.log(res);
+          this.stationBikeDetail = res as Station;
+        });
+    console.log(this.stationBikeDetail);
+  }
+
+  async addBiketotheStation(id: string, i: number) {
+    this.body = {
+      stationId: this.stationBikeDetail._id,
+      bikeId: id
+    };
+    await this.stationService.postBiketotheStation(this.body)
+        .subscribe(res => {
+              console.log(res);
+              this.unassignedBikes.splice(i, 1);
+              this.getBikeDetail(this.stationBikeDetail._id);
+            },
+            err => {
+              console.log(err);
+        });
+    }
+  async deleteBiketotheStation(id: string, i: number) {
+    if (confirm('Are you sure ?')) {
+      await this.stationService.deleteBiketotheStation(this.stationBikeDetail._id, id)
+          .subscribe(res => {
+                console.log(res);
+                this.stationBikeDetail.bikes.splice(i, 1);
+                this.getUnassignedBikes();
+              },
+              err => {
+                console.log(err);
+              });
+    }
+  }
 }

@@ -3,23 +3,52 @@
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
-    <ion-title class="title-nav">BikeList</ion-title>
+    <ion-title>{{stationBikeDetail.name}}: Current Bikes</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <ion-list>
-    <ion-item *ngFor="let item of items">
-      <ion-icon [name]="item.icon" slot="start"></ion-icon>
-      {{item.title}}
-      <div class="item-note" slot="end">
-        {{item.note}}
-      </div>
+  <ion-list-header class="center">
+    <ion-label>Bike</ion-label>
+    <ion-label>Kms</ion-label>
+    <ion-label>Description</ion-label>
+    <ion-label  margin-horizontal="15px" >Delete</ion-label>
+  </ion-list-header>
+  <ion-list *ngFor="let bike of stationBikeDetail.bikes; let i=index">
+    <ion-item>
+      <ion-label>{{bike.name}}</ion-label>
+      <ion-label>{{bike.kms}}</ion-label>
+      <ion-label>{{bike.description}}</ion-label>
+      <ion-buttons slot="end">
+        <ion-button (click)="deleteBiketotheStation(bike._id, i)">
+          <ion-icon  ios="ios-trash" md="md-trash"></ion-icon>
+        </ion-button>
+      </ion-buttons>
     </ion-item>
   </ion-list>
-  <!--
-    <div *ngIf="selectedItem" padding>
-      You navigated here from <b>{{selectedItem.title }}</b>
-    </div>
-  -->
+<ion-footer>
+    <ion-toolbar>
+      <ion-title>Unnassigned Bikes</ion-title>
+      <ion-header>
+        <ion-list-header>
+          <ion-label>Bike</ion-label>
+          <ion-label>Kms</ion-label>
+          <ion-label>Description</ion-label>
+          <ion-label margin-horizontal="30px" >Add</ion-label>
+        </ion-list-header>
+        <ion-list *ngFor="let bike of unassignedBikes; let i=index">
+          <ion-item>
+            <ion-label>{{bike.name}}</ion-label>
+            <ion-label>{{bike.kms}}</ion-label>
+            <ion-label>{{bike.description}}</ion-label>
+            <ion-buttons slot="end">
+              <ion-button slot="end" (click)="addBiketotheStation(bike._id, i)">
+                <ion-icon name="add-circle"></ion-icon>
+              </ion-button>
+            </ion-buttons>
+          </ion-item>
+        </ion-list>
+      </ion-header>
+    </ion-toolbar>
+</ion-footer>
 </ion-content>
