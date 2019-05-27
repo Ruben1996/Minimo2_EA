@@ -1,4 +1,4 @@
-# Minimo1
+# Minimo2
 
 Stations and bikes disponibillity
 
@@ -9,7 +9,7 @@ Stations and bikes disponibillity
 - node.js
 - express
 - mongoose
-- angular
+- ionic
 
 ## How To Use
 
@@ -28,11 +28,10 @@ nodemon index.js
 ```
 >(1) Keep it running on a separate cmd while you are working on your project in order to see the changes   
 
-Install angular:
+Install ionic:
 
 ```
-npm install -g @angular/cli
-npm install --save-dev @angular-devkit/build-angular
+npm install -g ionic
 ```
 
 >The second command is used in order to avoid future errors
@@ -82,4 +81,4 @@ SOFTWARE.
 
 ## Author Info
 
-Ruben Cobos
+Ruben Cobos Bermúdez
