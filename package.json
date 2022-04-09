@@ -16,7 +16,7 @@
     "express": "^4.16.4",
     "express-handlebars": "^3.0.2",
     "jwt-simple": "^0.5.5",
-    "moment": "^2.24.0",
+    "moment": "^2.29.2",
     "mongoose": "^5.4.19",
     "mongoose-hidden": "^1.6.1",
     "mongoose-integer": "^0.1.1",
